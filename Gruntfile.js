@@ -19,10 +19,25 @@ module.exports = function (grunt) {
       options: {
         destDir: 'build'
       }
+    },
+    rsync : {
+      options: {
+        args: ["--verbose"],
+        exclude: [".git*", "node_modules", "Gruntfile.js", "package.json", "README.md"],
+        recursive: true
+      },
+      prod: {
+        options: {
+          src: ["./*"],
+          dest: "/var/www/web-experiments.skh.io",
+          host: "skh@rcane.de"
+        }
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks("grunt-rsync")
   grunt.registerTask('lint', 'Run lint tools over all code files', 'jshint');
 
   grunt.registerTask('createDestDir', 
