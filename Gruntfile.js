@@ -25,15 +25,27 @@ module.exports = function (grunt) {
         files: [
           {
             expand: true, 
-            src: ['./*.html', 'js/*', 'img/*', 'css/*'], 
+            src: ['./*.html', 'js/*', 'css/*', 
+                  'views/*.html', 'views/js/*', 'views/css/*'], 
             dest: 'build/'
           }
         ]
       }
     },
+    imagemin: {
+      dynamic: {
+        files: [{
+          expand: true,
+          cwd: '.',
+          src: ['**/*.{png,jpg,gif}'],
+          dest: 'build/'
+        }]
+      }
+    },
     rsync: {
       options: {
         args: ["--verbose"],
+        exclude: ["node_modules"],
         recursive: true
       },
       prod: {
@@ -49,6 +61,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks("grunt-rsync");
   grunt.loadNpmTasks("grunt-contrib-copy");
+  grunt.loadNpmTasks("grunt-contrib-imagemin");
   grunt.registerTask('lint', 'Run lint tools over all code files', 'jshint');
 
   grunt.registerTask('createDestDir', 
