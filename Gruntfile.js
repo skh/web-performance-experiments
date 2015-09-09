@@ -82,7 +82,8 @@ module.exports = function (grunt) {
     grunt.file.delete(grunt.config.get('build.options.destDir'));
   });
 
-  grunt.registerTask('build', 'build everything', 'createDestDir');
+  grunt.registerTask('build', 'build everything', 
+                    ['createDestDir', 'copy', 'imagemin']);
   grunt.registerTask('clean', 'throw away all build results', 'deleteDestDir');
 };
 
