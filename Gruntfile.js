@@ -9,7 +9,7 @@ module.exports = function (grunt) {
   grunt.initConfig({
     jshint: {
       files: {
-        src: ['js/*'],
+        src: ['Gruntfile.js', 'js/*', 'views/js/main.js'],
         options: {
           jshintrc: true
         }
@@ -63,7 +63,7 @@ module.exports = function (grunt) {
       },
       desktop: {
         options: {
-          paths: ['/index.html', '/views/pizza.html'],
+          paths: ['/index.html'],
           locale: "en_US",
           strategy: "desktop",
           threshold: "91"
@@ -71,12 +71,21 @@ module.exports = function (grunt) {
       },
       mobile: {
           options: {
-          paths: ['/index.html', '/views/pizza.html'],
+          paths: ['/index.html'],
           locale: "en_US",
           strategy: "mobile",
           threshold: "91"
         }
       }
+    },
+    inline: {
+        dist: {
+            options:{
+                cssmin: true,
+                tag: ''
+            },
+            src: 'build/*.html'
+        }
     }
   });
 
@@ -85,7 +94,10 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks("grunt-contrib-copy");
   grunt.loadNpmTasks("grunt-contrib-imagemin");
   grunt.loadNpmTasks('grunt-pagespeed');
-  grunt.registerTask('lint', 'Run lint tools over all code files', 'jshint');
+  grunt.loadNpmTasks('grunt-inline');
+  
+  grunt.registerTask('lint', 'Run lint tools over all code files', 
+                    ['jshint','uncss']);
 
   grunt.registerTask('createDestDir', 
                      'Create destination folder for build results',
@@ -106,7 +118,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('build', 'build everything', 
-                    ['createDestDir', 'copy', 'imagemin']);
+                    ['createDestDir', 'copy', 'imagemin', 'inline']);
   grunt.registerTask('clean', 'throw away all build results', 'deleteDestDir');
   grunt.registerTask('check-speed', 'rebuild, upload and run against pagespeed',
                     ['clean', 'build', 'rsync', 'pagespeed']);
