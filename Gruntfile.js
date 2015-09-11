@@ -1,10 +1,10 @@
 /* Gruntfile.js
  * 
  * I have left the project structure untouched. The result of the automated
- * builds will end up in build/, the deployment tasks will pick it up from
- * there.
+ * build will end up in build/, the rsync task picks it up from there.
  *
  */
+
 module.exports = function (grunt) {
   grunt.initConfig({
     jshint: {
@@ -55,6 +55,28 @@ module.exports = function (grunt) {
           host: "skh@rcane.de"
         }
       }
+    },
+    pagespeed: {
+      options: {
+        nokey: true,
+        url: "http://web-experiments.skh.io"
+      },
+      desktop: {
+        options: {
+          paths: ['/index.html', '/views/pizza.html'],
+          locale: "en_US",
+          strategy: "desktop",
+          threshold: "91"
+        }
+      },
+      mobile: {
+          options: {
+          paths: ['/index.html', '/views/pizza.html'],
+          locale: "en_US",
+          strategy: "mobile",
+          threshold: "91"
+        }
+      }
     }
   });
 
@@ -62,6 +84,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks("grunt-rsync");
   grunt.loadNpmTasks("grunt-contrib-copy");
   grunt.loadNpmTasks("grunt-contrib-imagemin");
+  grunt.loadNpmTasks('grunt-pagespeed');
   grunt.registerTask('lint', 'Run lint tools over all code files', 'jshint');
 
   grunt.registerTask('createDestDir', 
@@ -85,6 +108,8 @@ module.exports = function (grunt) {
   grunt.registerTask('build', 'build everything', 
                     ['createDestDir', 'copy', 'imagemin']);
   grunt.registerTask('clean', 'throw away all build results', 'deleteDestDir');
+  grunt.registerTask('check-speed', 'rebuild, upload and run against pagespeed',
+                    ['clean', 'build', 'rsync', 'pagespeed']);
 };
 
 
