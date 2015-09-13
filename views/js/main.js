@@ -421,44 +421,26 @@ var resizePizzas = function(size) {
 
   changeSliderLabel(size);
 
-  // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
-  function determineDx (elem, size) {
-    var oldwidth = elem.offsetWidth;
-    var windowwidth = document.querySelector("#randomPizzas").offsetWidth;
-    var oldsize = oldwidth / windowwidth;
-
-    // TODO: change to 3 sizes? no more xl?
-    // Changes the slider value to a percent width
-    function sizeSwitcher (size) {
-      switch(size) {
-        case "1":
-          return 0.25;
-        case "2":
-          return 0.3333;
-        case "3":
-          return 0.5;
-        default:
-          console.log("bug in sizeSwitcher");
-      }
-    }
-
-    var newsize = sizeSwitcher(size);
-    var dx = (newsize - oldsize) * windowwidth;
-
-    return dx;
-  }
-
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
-    // all Pizzas look the same, so just measure the first to calculate new size
-    var firstPizza = document.querySelectorAll(".randomPizzaContainer")[0];
-    var dx = determineDx(firstPizza, size);
-    var newwidth = (firstPizza.offsetWidth + dx) + 'px';
-
-    // cache array length for not having to access the DOM in the for loop
-    var numPizzas = document.querySelectorAll(".randomPizzaContainer").length;
-    for (var i = 0; i < numPizzas; i++) { 
-      document.querySelectorAll(".randomPizzaContainer")[i].style.width = newwidth;
+    switch (size) {
+      case '1':
+        newWidth = 25;
+        break;
+      case '2':
+        newWidth = 33.3;
+        break;
+      case '3':
+        newWidth = 50;
+        break;
+      default:
+        console.log('bug in changePizzaSizes');
+    }
+    
+    var randomPizzas = document.querySelectorAll(".randomPizzaContainer");
+    var numRandomPizzas = randomPizzas.length;
+    for (var i = 0; i < numRandomPizzas; i++) {
+      randomPizzas[i].style.width = newWidth + "%";
     }
   }
 
@@ -525,10 +507,12 @@ function updatePositions() {
     var timesToUpdatePosition = window.performance.getEntriesByName("measure_frame_duration");
     logAverageFrame(timesToUpdatePosition);
   }
+  //requestAnimationFrame(updatePositions);
 }
 
 // runs updatePositions on scroll
 window.addEventListener('scroll', updatePositions);
+//requestAnimationFrame(updatePositions);
 
 // Generates the sliding pizzas when the page loads.
 document.addEventListener('DOMContentLoaded', function() {
