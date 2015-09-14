@@ -3,29 +3,26 @@ Project for Udacity's Website Optimization courses
 
 Based on https://github.com/udacity/frontend-nanodegree-mobile-portfolio
 
-Step 1:
+## Improving PageSpeed results for Cameron's portfolio page (index.html)
 
-Setup a grunt workflow:
-- JSHint (as a first test grunt target)
+The page is available at: http://web-experiments.skh.io/
 
-Step 2:
-- create a build directory (TODO: and copy all files there)
+### Manual optimizations
+- Use current JavaScript snippet to include Google Analytics into the page
+- Inlined CSS to use Google Web Fonts
+- Created two scaled down versions of ```pizzeria.jpg``` -- one for use
+  as preview image on the portfolio page, one for the Cam's Pizzeria page.
+- Published the page to a server I am administrating myself, and configured
+  Apache's mod_headers to include CacheControl headers in the response.
 
-Step 3:
-- rsync (TODO: from build directory) to production server
-- no staging server defined
-- I need to publish the site in order to be able to use Google PageSpeed
-- 
-Step 4: Page Speed, manual changes
+### Grunt workflow
 
-- use google analytics javascript from google
-- manually inline google web font css
-- manually resize pizzeria.jpg to make it smaller (for views/index.html)
-- manually resize pizzeria-optimized.jpg for use as preview
-- all images still double-sized in case of high resolution screens
-- check style.css if every style is used
+- created a build directory and copy all files there
+- used grunt-contrib-imagemin to optimize images
+- used grunt-inline to inline css
+- rsync from build directory to production server
+ 
+## 
 
-Step 5: Automated optimizations:
 
-- grunt-contrib-imagemin
 
