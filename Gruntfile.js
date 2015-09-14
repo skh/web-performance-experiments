@@ -97,7 +97,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-inline');
   
   grunt.registerTask('lint', 'Run lint tools over all code files', 
-                    ['jshint','uncss']);
+                    ['jshint']);
 
   grunt.registerTask('createDestDir', 
                      'Create destination folder for build results',
