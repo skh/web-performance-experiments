@@ -3,9 +3,16 @@ Project for Udacity's Website Optimization courses
 
 Based on https://github.com/udacity/frontend-nanodegree-mobile-portfolio
 
-## Improving PageSpeed results for Cameron's portfolio page (index.html)
-
 The page is available at: http://web-experiments.skh.io/
+
+The following ```grunt``` tasks are available:
+- ```build```: perform all automated optimizations and copy results to ```build``` directory
+- ```clean```: delete ```build``` directory
+- ```rsync```: deploy to production server (needs to be configured in ```Gruntfile.js``` first)
+- ```check-speed```: rebuild, deploy to production server, run google page speed insights and
+  show results (needs to be configured in ```Gruntfile.js``` first)
+
+## Improving PageSpeed results for Cameron's portfolio page (index.html)
 
 ### Manual optimizations
 - Used up-to-date JavaScript snippet from
